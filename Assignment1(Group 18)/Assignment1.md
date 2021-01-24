@@ -8,12 +8,16 @@ Xu Ke
 ----------
 ### Ex.1
 (i)
+Consider using unbounded array to realise the list. Consider
 
 ----------
 ### Ex.2
 (i)
 Since if the list $l$ and parameters $[e, f, g]$ are determined, the result of $src[e, f, g]$ is also uniquely defined, the well-defined conditions are those that ensure the uniqueness of the result with given parameters.
-For any split of a list $l$, $l = concat(l_1 +l_2)$, $g(src[e,f,g](l_1),)$
+For any split of a list $l$, $l = l_1 +l_2$, $g(src[e,f,g](l_1),src[e,f,g](l_2))=src[e,f,g](l)$ must be the same.
+Or we can see $g$ is associative with respect to the concatenation of the same (sub)list $l$.
+$l = l_1+l_2+l_3$ then $g(src[e,f,g](l_1),g(src[e,f,g](l_2),src[e,f,g](l_3)))=src[e,f,g](l_1+l_2+l_3)=g(g(src[e,f,g](l_1),src[e,f,g](l_2)),src[e,f,g](l_3))$
+Also we have a netural element $e$ of $g$ such that $g(src[e,f,g](l),e) = g(e,src[e,f,g](l)) = g(src[e,f,g](l),src[e,f,g]([])) = src[e,f,g](l)$.
 
 (ii)
 (1) Let the length function $len(l) = src[0,1,+](l)$, we let 

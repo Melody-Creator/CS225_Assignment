@@ -1,5 +1,5 @@
 //
-//  listmgt.cpp
+//  dlistmgt.cpp
 //  
 //
 //  Created by KD on 14.01.21.
@@ -8,17 +8,17 @@
 #include <stdio.h>
 #include <iostream>
 #include <cstdlib>
-#include "alist.cpp"
+#include "dlist.cpp"
 using std::cout;
 using std::cin;
-
+using namespace std;
 int main()
 {
-    int type, size, op;
+    int type, op;
     int pos, yes;
     int intitem, result1;
-    AList<int> mylist1;
-    AList<double> mylist2;
+    DList<int> mylist1 = DList<int>();
+    DList<double> mylist2 = DList<double>();
     double doubleitem, result2;
     bool boolresult;
     do
@@ -30,23 +30,6 @@ int main()
             cout << "You must choose 0 or 1\n\n";
     }
     while ((type != 0) && (type != 1));
-    cout << "Enter a positive integer for the size of your list:\n";
-    cin >> size;
-    if (size <= 0)
-        size = 20;
-    switch(type)
-    {
-        case 0:
-        {
-            AList<int> mylist1 = AList<int>(size);
-            break;
-        }
-        case 1:
-        {
-            AList<double> mylist2 = AList<double>(size);
-            break;
-        }
-    }
     do
     {
         do
@@ -64,7 +47,7 @@ int main()
             cout << "9: sublist\n";
             cout << "10: equal\n";
             cout << "11: display\n";
-            cout << "12: delete_last k\n";
+            cout << "12: structural recursion\n";
             cin >> op ;
         }
         while ((op < 0) && (op > 11));
@@ -173,7 +156,7 @@ int main()
             {
                 if (type == 0)
                 {
-                    AList<int> mylistnew1 = AList<int>(10);
+                    DList<int> mylistnew1 = DList<int>();
                     do
                     {
                         cout << "Do you want to enter more list elements?\n";
@@ -187,11 +170,11 @@ int main()
                         }
                     }
                     while (yes == 1);
-                    mylist1.concat(mylistnew1);
+                    mylist1.concat(&mylistnew1);
                 }
                 else
                 {
-                    AList<double> mylistnew2 = AList<double>(10);
+                    DList<double> mylistnew2 = DList<double>();
                     do
                     {
                         cout << "Do you want to enter more list elements?\n";
@@ -205,7 +188,7 @@ int main()
                         }
                     }
                     while (yes == 1);
-                    mylist2.concat(mylistnew2);
+                    mylist2.concat(&mylistnew2);
                 }
                 break;
             }
@@ -213,7 +196,7 @@ int main()
             {
                 if (type == 0)
                 {
-                    AList<int> mylistnew1 = AList<int>(10);
+                    DList<int> mylistnew1 = DList<int>();
                     do
                     {
                         cout << "Do you want to enter more list elements?\n";
@@ -227,11 +210,11 @@ int main()
                         }
                     }
                     while (yes == 1);
-                    boolresult = mylist1.sublist(mylistnew1);
+                    boolresult = mylist1.sublist(&mylistnew1);
                 }
                 else
                 {
-                    AList<double> mylistnew2 = AList<double>(10);
+                    DList<double> mylistnew2 = DList<double>();
                     do
                     {
                         cout << "Do you want to enter more list elements?\n";
@@ -245,7 +228,7 @@ int main()
                         }
                     }
                     while (yes == 1);
-                    boolresult = mylist2.sublist(mylistnew2);
+                    boolresult = mylist2.sublist(&mylistnew2);
                 }
                 if (boolresult == true)
                 {
@@ -259,7 +242,7 @@ int main()
             {
                 if (type == 0)
                 {
-                    AList<int> mylistnew1 = AList<int>(10);
+                    DList<int> mylistnew1 = DList<int>();
                     do
                     {
                         cout << "Do you want to enter more list elements?\n";
@@ -273,11 +256,11 @@ int main()
                         }
                     }
                     while (yes == 1);
-                    boolresult = mylist1.equal(mylistnew1);
+                    boolresult = mylist1.equal(&mylistnew1);
                 }
                 else
                 {
-                    AList<double> mylistnew2 = AList<double>(10);
+                    DList<double> mylistnew2 = DList<double>();
                     do
                     {
                         cout << "Do you want to enter more list elements?\n";
@@ -291,7 +274,7 @@ int main()
                         }
                     }
                     while (yes == 1);
-                    boolresult = mylist2.equal(mylistnew2);
+                    boolresult = mylist2.equal(&mylistnew2);
                 }
                 if (boolresult == true)
                 {
@@ -324,11 +307,33 @@ int main()
                 break;
             }
             case 12:{
-                cout << "Enter a positive integer k\n";
-                int k;
-                cin >> k;
-                if(type == 0)   mylist1.delete_last(k);
-                else  mylist2.delete_last(k);
+                cout << "Which function do you want to implement?\n1:length function\n";
+                cout << "2:function function\n3:sublist function\n";
+                int tt;
+                cin >> tt;
+                if(tt < 1 || tt > 3)  cout << "invalid input!\n";
+                if(type == 0){ //only consider e, f, g on a list of integers by default, or you can add new
+                                //functions with different e, f, g and T, T' in the code yourself
+                    if(tt == 1){
+                        int ans = mylist1.src(e1, f1, g1);
+                        cout << ans << endl;
+                    }
+                    else{
+                        DList<int> list;
+                        if(tt == 2)
+                            list = mylist1.src(e2, f2, g2);
+                        if(tt == 3)
+                            list = mylist1.src(e3, f3, g3);
+                        int numelements = list.getlength();
+                        for (int i = 1; i <= numelements; ++i)
+                        {
+                            intitem = list[i];
+                            cout << "List element " << i << " is " << intitem <<".\n";
+                        }
+                    }
+                }
+                else
+                    cout << "Redefine the functions e, f, g!\n";
                 break;
             }
             default: return(0);
@@ -337,18 +342,17 @@ int main()
     while (op != 0);
     return(0);
     /*
-    test cases:
-    input1: 8 9 5 6 4   //an ordinary case
-            k = 2   
-    output1: 8 9 5
-    input2: 8 9 5 6 4   //k is invalid
-            k = -1
-    output2: Enter a positive number please!
-    input3: 8 9 5 6 4   //k is invalid
-            k = 7
-    output3: There are less than k elements in the list! Failed!
-    input4: 8.1 9.5 4.1     //double-type case
-            k = 2
-    output4: 8.1
+    test cases:  //only for integer type (if want double type, modify or add new functions e, f, g)
+    // also F(x) = x ^ 2, condition is x > 0
+    // if want to change, modify or add new functions e, f, g
+    list 1 5 9 8 -5 0 4
+    src(e1, f1, g1): 7
+    src(e2, f2, g2): 1 25 81 64 25 0 16
+    src(e3, f3, g3): 1 5 9 8 4
+    // change F(x) = x + 1, condition x < 5
+    list 1 5 9 8 -5 0 4
+    src(e1, f1, g1): 7
+    src(e2, f2, g2): 2 6 10 9 -4 1 5
+    src(e3, f3, g3): 1 -5 0 4
     */
 }
